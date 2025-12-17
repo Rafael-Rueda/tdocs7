@@ -1,21 +1,21 @@
 # TDocs7
 
-MCP Server para busca inteligente em documentação com estratégia RAG-like.
+MCP Server for intelligent documentation search with RAG-like strategy.
 
-## O que faz?
+## What does it do?
 
-O TDocs7 é um servidor [MCP (Model Context Protocol)](https://modelcontextprotocol.io/) que permite que assistentes de IA (como Claude) busquem informações em sua documentação de forma inteligente.
+TDocs7 is an [MCP (Model Context Protocol)](https://modelcontextprotocol.io/) server that allows AI assistants (like Claude) to intelligently search your documentation.
 
-- Carrega documentação de uma URL configurada
-- Divide o conteúdo em chunks semânticos
-- Busca e rankeia os trechos mais relevantes
-- Retorna resultados formatados para o assistente
+- Loads documentation from a configured URL
+- Splits content into semantic chunks
+- Searches and ranks the most relevant excerpts
+- Returns formatted results to the assistant
 
-## Instalacao
+## Installation
 
-### Via npx (recomendado)
+### Via npx (recommended)
 
-Nao precisa instalar nada. Configure diretamente no seu cliente MCP.
+No installation required. Configure directly in your MCP client.
 
 ### Via npm (global)
 
@@ -23,11 +23,11 @@ Nao precisa instalar nada. Configure diretamente no seu cliente MCP.
 npm install -g tdocs7
 ```
 
-## Configuracao
+## Configuration
 
 ### Claude Code
 
-Adicione ao seu arquivo `.mcp.json`:
+Add to your `.mcp.json` file:
 
 ```json
 {
@@ -36,8 +36,8 @@ Adicione ao seu arquivo `.mcp.json`:
       "command": "npx",
       "args": ["-y", "tdocs7"],
       "env": {
-        "MCP_DOCS_URL": "https://sua-api.com/docs",
-        "MCP_JWT_TOKEN": "seu_token_jwt"
+        "MCP_DOCS_URL": "https://your-api.com/docs",
+        "MCP_JWT_TOKEN": "your_jwt_token"
       }
     }
   }
@@ -46,7 +46,7 @@ Adicione ao seu arquivo `.mcp.json`:
 
 ### Claude Desktop
 
-Adicione ao arquivo de configuracao (`claude_desktop_config.json`):
+Add to the configuration file (`claude_desktop_config.json`):
 
 ```json
 {
@@ -55,67 +55,67 @@ Adicione ao arquivo de configuracao (`claude_desktop_config.json`):
       "command": "npx",
       "args": ["-y", "tdocs7"],
       "env": {
-        "MCP_DOCS_URL": "https://sua-api.com/docs",
-        "MCP_JWT_TOKEN": "seu_token_jwt"
+        "MCP_DOCS_URL": "https://your-api.com/docs",
+        "MCP_JWT_TOKEN": "your_jwt_token"
       }
     }
   }
 }
 ```
 
-## Variaveis de Ambiente
+## Environment Variables
 
-| Variavel | Obrigatorio | Descricao | Default |
-|----------|-------------|-----------|---------|
-| `MCP_DOCS_URL` | Sim | URL da documentacao | - |
-| `MCP_JWT_TOKEN` | Sim | Token JWT para autenticacao | - |
-| `MCP_DEFAULT_MAX_RESULTS` | Nao | Numero de resultados por busca (1-10) | 3 |
-| `MCP_REQUEST_TIMEOUT` | Nao | Timeout em ms | 10000 |
+| Variable | Required | Description | Default |
+|----------|----------|-------------|---------|
+| `MCP_DOCS_URL` | Yes | Documentation URL | - |
+| `MCP_JWT_TOKEN` | Yes | JWT token for authentication | - |
+| `MCP_DEFAULT_MAX_RESULTS` | No | Number of results per search (1-10) | 3 |
+| `MCP_REQUEST_TIMEOUT` | No | Timeout in ms | 10000 |
 
-## Tools Disponiveis
+## Available Tools
 
 ### `search_docs`
 
-Busca informacoes na documentacao configurada.
+Searches for information in the configured documentation.
 
-**Parametros:**
-- `search` (string, obrigatorio): Termo ou frase para buscar
-- `max_results` (number, opcional): Numero de trechos a retornar (1-10)
+**Parameters:**
+- `search` (string, required): Term or phrase to search
+- `max_results` (number, optional): Number of excerpts to return (1-10)
 
-**Exemplo de uso pelo assistente:**
+**Example usage by assistant:**
 ```
-Buscando "autenticacao" na documentacao...
+Searching for "authentication" in the documentation...
 ```
 
-## Desenvolvimento
+## Development
 
 ```bash
-# Clonar o repositorio
-git clone https://github.com/SEU_USUARIO/tdocs7.git
+# Clone the repository
+git clone https://github.com/YOUR_USERNAME/tdocs7.git
 cd tdocs7
 
-# Instalar dependencias
+# Install dependencies
 npm install
 
-# Configurar variaveis de ambiente
+# Configure environment variables
 cp .env.example .env
-# Edite o arquivo .env com suas configuracoes
+# Edit the .env file with your settings
 
-# Rodar em desenvolvimento
+# Run in development
 npm run dev
 
 # Build
 npm run build
 
-# Lint e formatacao
+# Lint and format
 npm run lint
 npm run format
 ```
 
-## Requisitos
+## Requirements
 
 - Node.js >= 20.0.0
 
-## Licenca
+## License
 
 ISC

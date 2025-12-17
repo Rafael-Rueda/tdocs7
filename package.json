@@ -1,6 +1,6 @@
 {
     "name": "tdocs7",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "MCP Server para busca em documentação com RAG-like chunking",
     "type": "module",
     "main": "dist/index.js",
@@ -8,7 +8,9 @@
     "bin": {
         "tdocs7": "./dist/index.js"
     },
-    "files": ["dist"],
+    "files": [
+        "dist"
+    ],
     "scripts": {
         "build": "tsc",
         "start": "node --env-file=.env dist/index.js",
@@ -18,7 +20,13 @@
         "clean": "rm -rf dist",
         "typecheck": "tsc --noEmit"
     },
-    "keywords": ["mcp", "documentation", "search", "rag", "claude"],
+    "keywords": [
+        "mcp",
+        "documentation",
+        "search",
+        "rag",
+        "claude"
+    ],
     "author": "",
     "license": "ISC",
     "engines": {

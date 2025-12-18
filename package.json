@@ -1,6 +1,6 @@
 {
     "name": "tdocs7",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "description": "MCP Server para busca em documentação com RAG-like chunking",
     "type": "module",
     "main": "dist/index.js",

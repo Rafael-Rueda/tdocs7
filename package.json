@@ -1,6 +1,6 @@
 {
     "name": "tdocs7",
-    "version": "1.0.3",
+    "version": "1.0.4",
     "description": "MCP Server para busca em documentação com RAG-like chunking",
     "type": "module",
     "main": "dist/index.js",
@@ -44,5 +44,13 @@
         "axios": "^1.13.2",
         "puppeteer-core": "^24.33.0",
         "zod": "^4.2.1"
-    }
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/Rafael-Rueda/tdocs7.git"
+    },
+    "bugs": {
+        "url": "https://github.com/Rafael-Rueda/tdocs7/issues"
+    },
+    "homepage": "https://github.com/Rafael-Rueda/tdocs7#readme"
 }

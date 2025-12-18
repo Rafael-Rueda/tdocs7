@@ -3,31 +3,53 @@
  * Exporta a função principal de busca e utilitários
  */
 
-import type { DocChunk, SearchResult } from "../../types/index.js";
-import { splitIntoChunks, getExpandedContext } from "./chunker.js";
+import { getExpandedContext, splitIntoChunks } from "./chunker.js";
 import { calculateRelevanceScore, extractSearchTerms } from "./scorer.js";
+import type { ChunkingOptions, DocChunk, SearchResult } from "../../types/index.js";
 
-// Re-exporta utilitários úteis
-export { normalizeText, escapeRegex } from "./scorer.js";
-export { SEPARATION_PATTERNS } from "./patterns.js";
+// Re-exporta funções de detecção de formato
+export { detectDocumentFormat, isHtmlDocument, isJsonDocument, isMarkdownDocument } from "./format-detector.js";
+// Re-exporta chunker HTML
+export { htmlToSimpleMarkdown, splitHtmlIntoChunks } from "./html-chunker.js";
+// Re-exporta patterns
+export { HTML_PATTERNS, SEPARATION_PATTERNS } from "./patterns.js";
+// Re-exporta utilitários de scoring
+export { escapeRegex, normalizeText } from "./scorer.js";
+
+/**
+ * Opções para a função de busca
+ */
+export interface SearchOptions extends ChunkingOptions {
+    /** Número máximo de resultados a retornar (padrão: 3) */
+    maxResults?: number;
+}
 
 /**
  * Busca os trechos mais relevantes na documentação
+ * Detecta automaticamente o formato do documento e aplica estratégia de chunking adequada
  *
  * @param document - Documento completo para buscar
  * @param searchQuery - Query de busca do usuário
- * @param maxResults - Número máximo de resultados a retornar
+ * @param options - Opções de busca (maxResults, forceFormat, enableHtmlFallback, enableJsonFallback)
  * @returns Objeto com resultados da busca
  *
  * @example
  * ```typescript
- * const result = searchInDocs(documentContent, "como criar uma tool", 3);
- * console.log(result.results); // Array com os 3 trechos mais relevantes
+ * // Busca padrão com detecção automática de formato
+ * const result = searchInDocs(documentContent, "como criar uma tool");
+ *
+ * // Forçando formato HTML
+ * const result = searchInDocs(htmlContent, "authentication", { forceFormat: "html" });
+ *
+ * // Desabilitando fallback HTML
+ * const result = searchInDocs(content, "query", { enableHtmlFallback: false });
  * ```
  */
-export function searchInDocs(document: string, searchQuery: string, maxResults: number = 3): SearchResult {
-    // 1. Divide documento em chunks
-    const chunks = splitIntoChunks(document);
+export function searchInDocs(document: string, searchQuery: string, options: SearchOptions = {}): SearchResult {
+    const { maxResults = 3, ...chunkingOptions } = options;
+
+    // 1. Divide documento em chunks (com detecção automática de formato)
+    const chunks = splitIntoChunks(document, chunkingOptions);
 
     // 2. Extrai termos de busca
     const searchTerms = extractSearchTerms(searchQuery);
@@ -50,6 +72,14 @@ export function searchInDocs(document: string, searchQuery: string, maxResults: 
         totalChunks: chunks.length,
         matchedChunks: relevantChunks.length,
     };
+}
+
+/**
+ * Versão simplificada mantida para compatibilidade
+ * @deprecated Use searchInDocs com options ao invés
+ */
+export function searchInDocsLegacy(document: string, searchQuery: string, maxResults = 3): SearchResult {
+    return searchInDocs(document, searchQuery, { maxResults });
 }
 
 /**

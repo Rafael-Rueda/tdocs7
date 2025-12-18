@@ -76,3 +76,55 @@ export interface SeparationPatterns {
     /** Detecta blocos de código */
     codeBlock: RegExp;
 }
+
+export interface HtmlPatterns {
+    /** Detecta se o documento é HTML */
+    isHtml: RegExp;
+    /** Tags de seção (article, section, div, etc) */
+    sectionTags: RegExp;
+    /** Headers HTML (h1-h6) */
+    headerTags: RegExp;
+    /** Parágrafos HTML */
+    paragraphTags: RegExp;
+    /** Listas (ul, ol) */
+    listTags: RegExp;
+    /** Blocos de código (pre, code) */
+    codeTags: RegExp;
+    /** Tags de script e style para remoção */
+    scriptStyleTags: RegExp;
+    /** Comentários HTML */
+    htmlComments: RegExp;
+    /** Todas as tags HTML */
+    allTags: RegExp;
+    /** Entidades HTML */
+    htmlEntities: RegExp;
+    /** Tags que criam quebra de linha semântica */
+    blockTags: RegExp;
+}
+
+// ============================================================================
+// Detecção de Formato de Documento
+// ============================================================================
+
+/** Formatos de documento suportados */
+export type DocumentFormat = "markdown" | "html" | "json" | "text";
+
+/** Resultado da detecção de formato */
+export interface FormatDetectionResult {
+    /** Formato detectado */
+    format: DocumentFormat;
+    /** Confiança da detecção (0-1) */
+    confidence: number;
+    /** Indicadores que levaram à detecção */
+    indicators: string[];
+}
+
+/** Opções para escolha do fallback de chunking */
+export interface ChunkingOptions {
+    /** Força um formato específico (ignora detecção automática) */
+    forceFormat?: DocumentFormat;
+    /** Habilita fallback HTML quando detectado */
+    enableHtmlFallback?: boolean;
+    /** Habilita fallback JSON quando detectado */
+    enableJsonFallback?: boolean;
+}

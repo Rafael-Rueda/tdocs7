@@ -52,7 +52,7 @@ A documentação é carregada da URL configurada no servidor.`,
                 const document = await fetchDocument(docsUrl);
 
                 // Executa a busca
-                const { results, totalChunks, matchedChunks } = searchInDocs(document, search, maxResults);
+                const { results, totalChunks, matchedChunks } = searchInDocs(document, search, { maxResults });
 
                 // Prepara output
                 const output: SearchOutput = {

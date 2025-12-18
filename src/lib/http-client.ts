@@ -114,12 +114,49 @@ export function formatHttpError(error: unknown, url: string): FormattedError {
 }
 
 /**
+ * Opções para fetch de documento
+ */
+export interface FetchDocumentOptions {
+    /** Usa fetch inteligente com detecção de Swagger/SPA (padrão: true) */
+    useSmartFetch?: boolean;
+    /** Timeout para requisições HTTP (ms) */
+    httpTimeout?: number;
+    /** Timeout para renderização headless (ms) */
+    headlessTimeout?: number;
+}
+
+/**
  * Busca conteúdo de uma URL e retorna como string
+ * Suporta detecção automática de Swagger/OpenAPI e renderização de SPAs
  *
  * @param url - URL para buscar
+ * @param options - Opções de fetch
  * @returns Conteúdo da resposta como string
  */
-export async function fetchDocument(url: string): Promise<string> {
+export async function fetchDocument(url: string, options: FetchDocumentOptions = {}): Promise<string> {
+    const { useSmartFetch = true, httpTimeout, headlessTimeout } = options;
+
+    // Se smart fetch está habilitado, usa ele
+    if (useSmartFetch) {
+        // Importa dinamicamente para evitar dependência circular
+        const { smartFetch } = await import("./smart-fetch.js");
+
+        const result = await smartFetch(url, {
+            httpTimeout,
+            headlessTimeout,
+        });
+
+        if (result.success && result.content) {
+            return result.content;
+        }
+
+        // Se falhou, tenta método tradicional
+        if (result.error) {
+            console.error(`Smart fetch falhou: ${result.error}. Tentando método tradicional...`);
+        }
+    }
+
+    // Método tradicional
     const client = getHttpClient();
     const response = await client.get<string | object>(url);
 
